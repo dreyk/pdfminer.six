@@ -591,6 +591,13 @@ class PDFType1Font(PDFSimpleFont):
             #lastchar = int_value(spec.get('LastChar', 255))
             widths = list_value(spec.get('Widths', [0]*256))
             widths = dict((i+firstchar, w) for (i, w) in enumerate(widths))
+        if spec.get('FontDescriptor',None) is not None:
+            descriptor = dict_value(spec.get('FontDescriptor', {}))
+        if spec.get('FirstChar', None) is not None:
+            firstchar = int_value(spec.get('FirstChar', 0))
+        if spec.get('Widths',None) is not None:
+            widths = list_value(spec.get('Widths', [0]*256))
+            widths = dict((i+firstchar, w) for (i, w) in enumerate(widths))
         PDFSimpleFont.__init__(self, descriptor, widths, spec)
         if 'Encoding' not in spec and 'FontFile' in descriptor:
             # try to recover the missing encoding info from the font file.
